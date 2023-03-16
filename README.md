@@ -14,7 +14,7 @@ You can also download generated pictures from the following: https://huggingface
 
 ## Install
 - Go to the directory: \<stable-diffusion-webui project path\>/extensions
-- Run this command: `git clone https://github.com/yfszzx/stable-diffusion-webui-inspiration`
+- Run this command: `git clone https://github.com/HPPinata/stable-diffusion-webui-inspiration`
 - Restart your stable-diffusion-webui, you will see the new tab "Inspiration"
 
 - Run the "Create inspiration images" script inside the "txt2img" page to create images.
