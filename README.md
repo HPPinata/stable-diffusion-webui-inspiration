@@ -6,7 +6,7 @@ Randomly display pictures of the artist's or artistic genre's typical style. Mor
 ![image](etc/inspiration_tab.png)
 You can filter artists or genre's by keyword, collect the style to favorites, or shield the style you don't like. You can also send the style name to the txt2img or img2img prompt.
 
-All the pictures are created by a script named "Create inspiration images" in the txt2img page and the artist's and genre's names come from the following repository: https://github.com/pharmapsychotic/clip-interrogator/tree/main/data
+All the pictures are created by a script named "Create inspiration images" in the txt2img page and the artist's and genre's names come from the following repository: https://github.com/pharmapsychotic/clip-interrogator/tree/main/clip_interrogator/data
 
 There are about 6000 artists and art styles in these files. This takes server hours depending on your GPU type and how many pictures you generate for each artist/style.
 
