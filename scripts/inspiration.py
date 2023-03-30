@@ -276,8 +276,8 @@ def on_ui_tabs():
         send_to_img2img.click(add_to_prompt, inputs=[name, img2img_prompt], outputs=[img2img_prompt])
         send_to_txt2img.click(collect_click, inputs=[name], outputs=[warning])
         send_to_img2img.click(collect_click, inputs=[name], outputs=[warning])
-        send_to_txt2img.click(None, _js="switch_to_txt2img", inputs=None, outputs=None)
-        send_to_img2img.click(None, _js="switch_to_img2img", inputs=None, outputs=None)
+        #send_to_txt2img.click(None, _js="switch_to_txt2img", inputs=None, outputs=None)
+        #send_to_img2img.click(None, _js="switch_to_img2img", inputs=None, outputs=None)
     return (inspiration, "Inspiration", "inspiration"),
 
 
