@@ -128,13 +128,14 @@ def get_inspiration_images(source, types, keyword):
         for tp in types:
             name_list = os.listdir(os.path.join(inspiration_dir, tp))
             all_names += [os.path.join(tp, x) for x in name_list if keyword in x.lower()]
-
+        
         if len(all_names) > get_num:
             names = []
-            while len(names) < get_num:
+            while len(names) < get_num and len(all_names) > 0:
                 name = random.choice(all_names)
-                if name not in abandoned:
+                if name not in abandoned and name not in names:
                     names.append(name)
+                    all_names.remove(name)
         else:
             names = all_names
     else:
@@ -144,7 +145,7 @@ def get_inspiration_images(source, types, keyword):
             all_names += [os.path.join(tp, x) for x in name_list if keyword in x.lower()]
         names = random.sample(all_names, get_num) if len(all_names) > get_num else all_names
     image_list = []
-    for a in names:
+    for a in [ name for name in names if not name.endswith(".DS_Store") ]:
         image_path = os.path.join(inspiration_dir, a)
         images = os.listdir(image_path)
         if len(images) > 0:
