@@ -1,0 +1,99 @@
+I'd like you to fix and update an existing small extension for
+Automatic1111 stable-diffusion-webui to work as it did in a previous SD-Webui Version.
+https://github.com/AUTOMATIC1111/stable-diffusion-webui
+
+I'd also like it to have compatibility with the vladmandic/automatic fork.
+Most extensions work on both without many, if any changes and this currently has the same behavior on both.
+https://github.com/vladmandic/automatic
+
+I prefer vladmandic/automatic so that should be the main target.
+
+The extension I'm talking about is https://github.com/HPPinata/stable-diffusion-webui-inspiration
+(my fork of the abandoned https://github.com/yfszzx/stable-diffusion-webui-inspiration).
+It has a few minor fixes (mostly spelling) and a guesswork "fix" for temp dirs
+(tested on Linux, see https://github.com/yfszzx/stable-diffusion-webui-inspiration/pull/40).
+
+It also summarizes some community efforts to "fix" stuff in the sort_ branches.
+The other branches are personal and largely duplicate, or attempts at upstream PRs.
+
+
+Basis:
+sort_general are spelling and quotation related and a good starting point for fixes.
+
+sort_list introduces some changes in behaviour (eliminate duplicates).
+          It appears to work fine after some changes (line 136 still needs the .DS_Store filter, like in line 148!)
+          but is not thouroughly tested.
+
+sort_fix is a JANKY workaround with global variables breaking other things (like multi user) and not fixing all issues.
+         The directory fix works fine on Linux, but is not tested on Windows/Mac.
+
+
+Current issues expected to be fixed (present on main branch):
+1. - The images don't get highlighted, staying in the grid view
+     but opened in the image browser (very annoying and inefficient).
+   - Due to this the subset on the right is correct on initial click but when navigating
+     in the image viewer off by 1
+   To FIX: Don't open image viewer, stay on grid view
+
+2. - The temporary fixes introduced a Global variable (https://github.com/yfszzx/stable-diffusion-webui-inspiration/commit/b84c9717b2c0d512d44d980b9f19d4de8d9cbb97)
+     This breaks multi user (different browser tabs/sessions are affected by one anothers selections)
+   To FIX: Rework fix or find new solution to still allow multi user
+
+3. - Make sure images are saved to the correct location
+     (test directory fix on other platform and maybe improve if it does not work everywhere)
+
+4. - The code is pretty messy (duplicate imports, confusing naming, etc) some cleanup and comments
+     as long as it does not interfere with existing/expected functionality would be nice
+
+
+Desired improvements:
+1. If possible (and not breaking compatibility between Automatic1111 and vladmandic/automatic!)
+   Enable use with the "Enqueue" option.
+
+2. Enable the extension to start being used without requiring a restart of the whole application
+   Maybe just on a page reload (F5 / CTRL + F5) or with a refresh button on the instruction page?
+   Already works if ANY image is detected and the normal UI instead of the instruction page is displayed.
+
+
+Expected behaviour after fixes for reference:
+General: the sort_general branch with a Automatic1111 commit from BEFORE March 31 2023 should
+         demonstrate the expected behavior
+
+1. Generation should work fine. I have not had any issues when i tested it the last time (31.07.2023),
+   but here are the requirements so it's not broken after:
+   selecting inspiration as a script in the text to image tab -> uploading 1 or more textfiles
+   (see example files https://github.com/HPPinata/sd-autoinstall/tree/main/inspiration and code for formatting)
+   -> prompt including the {inspiration} -> generating images.
+   IMPORTANT: Manual Queuing up worked and should continue to work using multiple browser sessions at the same time like:
+              Tab 1 files + prompt ready, Tab 2 files + prompt ready, start Tab 1, start Tab 2,
+              then wait for both jobs to finish (in order) without conflict, error or interference.
+              This is the default behavior for all creation tasks, just included to test it's not broken after.
+
+2. After a restart of SD-Webui the generated inspiration images are visible in the Inspiration tab.
+   on fresh load checking/unchecking a "checkbox group" or klicking "get inspiration" might be required for stuff to load.
+   The textfiles names become the "checkbox group" (foldename on the local filesystem)
+   Images in the grid on the left are grouped by their textfile prompt (like "emotions/angry")
+   only one image is displayed in the grid per keyword, not multiple "angry" images.
+   All images of a group are displayed in alphabetic order, unless there are too many,
+   then a random subset is displayed.
+   The keyword field works as a fulltext search in the selected group/groups (including "overflow" that is not displayed if the grid is too small).
+
+3. When selecting an image it's border is highlighted
+   The image should NOT OPEN in the grid replacing image viewer.
+   All variations if that one image (from multiple generation runs) are displayed in the field below the 4 buttons ("to txt2img", etc.).
+   The name/prompt ("emotions/angry") should be displayed in the field above those buttons (below the "get inspiration" one)
+
+4. The "to txt2img" button should append the word to the prompt (just "angry" not "emotions/angry")
+   The "to img2img" button works similarly, just for another tab.
+   The "Collect" button adds images to Favorites, the "don't show again button" adds to a blacklist.
+   Those Filters can be selected from the "Source" dropdown
+   The format for adding to a prompt is: "prompt" + ", " + "word".
+
+
+The issues started at the beginning of April (maybe an upstream grandio update?)
+See https://github.com/yfszzx/stable-diffusion-webui-inspiration/issues/35.
+
+Please contact me for any further questions or suggentions about altered/improved behavior.
+I'm a sysadmin not a developer so I can only really help with setting Automatic1111 up in a system.
+This is my install routine though it should of course work on any Platform:
+https://github.com/HPPinata/sd-autoinstall/
